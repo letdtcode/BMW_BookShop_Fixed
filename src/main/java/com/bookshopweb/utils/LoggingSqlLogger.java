@@ -9,7 +9,7 @@ public class LoggingSqlLogger implements SqlLogger {
     @Override
     public void logBeforeExecution(StatementContext context) {
         String sql = context.getRawSql();
-//        System.out.println("Executing SQL: " + sql);
+        System.out.println("Executing SQL: " + sql);
     }
 
     @Override
