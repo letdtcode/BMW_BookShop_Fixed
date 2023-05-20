@@ -34,6 +34,19 @@ public class CategoryServlet extends HttpServlet {
         if (id > 0L && categoryFromServer.isPresent()) {
             // Tiêu chí lọc 1: Nhà xuất bản
             Optional<String[]> checkedPublishersParam = Optional.ofNullable(request.getParameterValues("checkedPublishers"));
+            if (checkedPublishersParam.isPresent()) {
+//                for (String item : checkedPublishersParam.get()) {
+//                    item = item.trim();
+//                    int index = item.indexOf("'");
+//                    item = (index != -1) ? item.substring(0, index) : item;
+//                }
+                String[] checkedPublishers = checkedPublishersParam.get();
+                for (int i = 0; i < checkedPublishers.length; i++) {
+                    String item = checkedPublishers[i].trim();
+                    int index = item.indexOf("'");
+                    checkedPublishers[i] = (index != -1) ? item.substring(0, index) : item;
+                }
+            }
             List<String> checkedPublishers = checkedPublishersParam.map(Arrays::asList).orElseGet(ArrayList::new);
 
             // Tiêu chí lọc 2: Khoảng giá
@@ -113,5 +126,6 @@ public class CategoryServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
 }

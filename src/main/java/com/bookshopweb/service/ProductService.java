@@ -105,7 +105,6 @@ public class ProductService extends Service<Product, ProductDAO> implements Prod
         ).collect(Collectors.joining(" OR "));
         return "(" + priceRangeConditions + ")";
     }
-
     public String createFiltersQuery(List<String> filters) {
         return String.join(" AND ", filters);
     }
