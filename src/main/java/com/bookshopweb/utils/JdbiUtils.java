@@ -14,6 +14,7 @@ public class JdbiUtils {
         dataSource.setPassword(ConstantUtils.DB_PASSWORD);
 
         Jdbi jdbi = Jdbi.create(dataSource);
+        jdbi.setSqlLogger(new LoggingSqlLogger());
         jdbi.installPlugin(new SqlObjectPlugin());
         return jdbi;
     }
