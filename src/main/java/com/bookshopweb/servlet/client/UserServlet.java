@@ -34,7 +34,8 @@ public class UserServlet extends HttpServlet {
             int countOrderReceivedByUserId = cartService.countOrderReceivedByUserId(user.getId());
             request.setAttribute("countOrderReceived", countOrderReceivedByUserId);
         }
-
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
         request.getRequestDispatcher("/WEB-INF/views/userView.jsp").forward(request, response);
     }
 
