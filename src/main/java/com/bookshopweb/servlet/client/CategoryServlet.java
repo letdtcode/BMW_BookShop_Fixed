@@ -33,13 +33,9 @@ public class CategoryServlet extends HttpServlet {
         // Nếu id là số nguyên dương và có hiện diện trong bảng category
         if (id > 0L && categoryFromServer.isPresent()) {
             // Tiêu chí lọc 1: Nhà xuất bản
-            Optional<String[]> checkedPublishersParam = Optional.ofNullable(request.getParameterValues("checkedPublishers"));
+            Optional<String[]> checkedPublishersParam = Optional.ofNullable(
+                    request.getParameterValues("checkedPublishers"));
             if (checkedPublishersParam.isPresent()) {
-//                for (String item : checkedPublishersParam.get()) {
-//                    item = item.trim();
-//                    int index = item.indexOf("'");
-//                    item = (index != -1) ? item.substring(0, index) : item;
-//                }
                 String[] checkedPublishers = checkedPublishersParam.get();
                 for (int i = 0; i < checkedPublishers.length; i++) {
                     String item = checkedPublishers[i].trim();
@@ -118,8 +114,13 @@ public class CategoryServlet extends HttpServlet {
             request.setAttribute("order", orderParam.orElse("totalBuy-DESC"));
             request.setAttribute("filterQueryString",
                     request.getQueryString().replaceAll("^id=\\d{1,5}(&page=\\d{1,5}|)", ""));
+
+            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+            response.addHeader("X-Frame-Options", "DENY");
             request.getRequestDispatcher("/WEB-INF/views/categoryView.jsp").forward(request, response);
         } else {
+            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+            response.addHeader("X-Frame-Options", "DENY");
             // Nếu id không phải là số nguyên hoặc không hiện diện trong bảng category
             response.sendRedirect(request.getContextPath() + "/");
         }

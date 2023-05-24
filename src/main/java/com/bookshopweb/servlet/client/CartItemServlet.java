@@ -71,6 +71,8 @@ public class CartItemServlet extends HttpServlet {
             String errorMessage = "Đã có lỗi truy vấn!";
             JsonUtils.out(response, new ErrorMessage(404, errorMessage), HttpServletResponse.SC_NOT_FOUND);
         }
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
     }
 
     @Override
