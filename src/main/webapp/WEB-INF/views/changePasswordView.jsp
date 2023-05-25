@@ -44,6 +44,8 @@
                   <div class="alert alert-danger" role="alert">${requestScope.errorMessage}</div>
                 </c:if>
                 <div class="col-lg-6">
+
+                  <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                   <form action="${pageContext.request.contextPath}/changePassword" method="post">
                     <div class="mb-3">
                       <label for="inputCurrentPassword" class="form-label">
