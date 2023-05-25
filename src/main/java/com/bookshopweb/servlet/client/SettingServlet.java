@@ -23,6 +23,10 @@ public class SettingServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("currentUser");
         request.setAttribute("user", user);
+
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
+
         request.getRequestDispatcher("WEB-INF/views/settingView.jsp").forward(request, response);
     }
 

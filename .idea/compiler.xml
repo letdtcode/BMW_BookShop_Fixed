@@ -9,5 +9,8 @@
         <module name="BookShopWeb" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="18">
+      <module name="BMW_BookShop_Fixed" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
