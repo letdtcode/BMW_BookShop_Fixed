@@ -12,38 +12,55 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @WebServlet(name = "ChangePassword", value = "/changePassword")
 public class ChangePasswordServlet extends HomeServlet {
     private final UserService userService = new UserService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+        String csrfToken = UUID.randomUUID().toString();
+        request.getSession().setAttribute("csrfToken", csrfToken);
+
         request.getRequestDispatcher("WEB-INF/views/changePasswordView.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String, String> values = new HashMap<>();
-        values.put("currentPassword", request.getParameter("currentPassword"));
-        values.put("newPassword", request.getParameter("newPassword"));
-        values.put("newPasswordAgain", request.getParameter("newPasswordAgain"));
+        String csrfToken = request.getParameter("csrfToken");
+        String storedToken = (String) request.getSession().getAttribute("csrfToken");
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("currentUser");
-
-        boolean currentPasswordEqualsUserPassword = HashingUtils.hash(values.get("currentPassword")).equals(user.getPassword());
-        boolean newPasswordEqualsNewPasswordAgain = values.get("newPassword").equals(values.get("newPasswordAgain"));
-
-        if (currentPasswordEqualsUserPassword && newPasswordEqualsNewPasswordAgain) {
-            String newPassword = HashingUtils.hash(values.get("newPassword"));
-            userService.changePassword(user.getId(), newPassword);
-            String successMessage = "Đổi mật khẩu thành công!";
-            request.setAttribute("successMessage", successMessage);
-        } else {
-            String errorMessage = "Đổi mật khẩu thất bại!";
-            request.setAttribute("errorMessage", errorMessage);
+        if (csrfToken == null || !csrfToken.equals(storedToken)) {
+//             Mã thông báo CSRF không hợp lệ, xử lý từ chối yêu cầu
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // Trả về mã lỗi 403 Forbidden
+            response.getWriter().println("Yêu cầu bị từ chối do lỗi CSRF."); // Hiển thị thông báo lỗi
         }
+        else {
 
-        request.getRequestDispatcher("/WEB-INF/views/changePasswordView.jsp").forward(request, response);
+            Map<String, String> values = new HashMap<>();
+            values.put("currentPassword", request.getParameter("currentPassword"));
+            values.put("newPassword", request.getParameter("newPassword"));
+            values.put("newPasswordAgain", request.getParameter("newPasswordAgain"));
+
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("currentUser");
+
+            boolean currentPasswordEqualsUserPassword = HashingUtils.hash(values.get("currentPassword")).equals(user.getPassword());
+            boolean newPasswordEqualsNewPasswordAgain = values.get("newPassword").equals(values.get("newPasswordAgain"));
+
+            if (currentPasswordEqualsUserPassword && newPasswordEqualsNewPasswordAgain) {
+                String newPassword = HashingUtils.hash(values.get("newPassword"));
+                userService.changePassword(user.getId(), newPassword);
+                String successMessage = "Đổi mật khẩu thành công!";
+                request.setAttribute("successMessage", successMessage);
+            } else {
+                String errorMessage = "Đổi mật khẩu thất bại!";
+                request.setAttribute("errorMessage", errorMessage);
+            }
+
+            request.getRequestDispatcher("/WEB-INF/views/changePasswordView.jsp").forward(request, response);
+        }
     }
 }
