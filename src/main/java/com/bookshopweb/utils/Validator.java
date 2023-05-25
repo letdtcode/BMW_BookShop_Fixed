@@ -1,5 +1,7 @@
 package com.bookshopweb.utils;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -87,9 +89,16 @@ public class Validator<T> {
         return this;
     }
 
-    public Validator<T> isEqualTo(String other, String subjectName) {
+    public Validator<T> isVerifyerTo(String hashedPasswordUser, String subjectName) {
+//        Optional<String> violation = Optional.ofNullable(o)
+//                .filter(obj -> !String.valueOf(obj).equals(other))
+//                .map(obj -> String.format("%s không đúng", subjectName));
+//        violation.ifPresent(violations::add);
+//        return this;
+//        String password = o.toString();
+//        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hashedPasswordUser);
         Optional<String> violation = Optional.ofNullable(o)
-                .filter(obj -> !String.valueOf(obj).equals(other))
+                .filter(obj -> !BCrypt.verifyer().verify(obj.toString().toCharArray(), hashedPasswordUser).verified)
                 .map(obj -> String.format("%s không đúng", subjectName));
         violation.ifPresent(violations::add);
         return this;
