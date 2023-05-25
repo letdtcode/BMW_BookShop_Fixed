@@ -5,6 +5,7 @@ import com.bookshopweb.service.UserService;
 import com.bookshopweb.utils.HashingUtils;
 import com.bookshopweb.utils.Protector;
 import com.bookshopweb.utils.Validator;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,9 +32,11 @@ public class SigninServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String> values = new HashMap<>();
-        values.put("username", request.getParameter("username"));
-        values.put("password", request.getParameter("password"));
 
+//        values.put("username", request.getParameter("username"));
+//        values.put("password",request.getParameter("password"));
+        values.put("username", StringEscapeUtils.escapeHtml4(request.getParameter("username")));
+        values.put("password", StringEscapeUtils.escapeHtml4(request.getParameter("password")));
         Map<String, List<String>> violations = new HashMap<>();
         Optional<User> userFromServer = Protector.of(() -> userService.getByUsername(values.get("username")))
                 .get(Optional::empty);

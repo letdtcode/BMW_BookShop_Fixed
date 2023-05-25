@@ -5,6 +5,7 @@ import com.bookshopweb.service.UserService;
 import com.bookshopweb.utils.HashingUtils;
 import com.bookshopweb.utils.Protector;
 import com.bookshopweb.utils.Validator;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,15 +33,22 @@ public class SignupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lưu các parameter (tên-giá trị) vào map values
         Map<String, String> values = new HashMap<>();
-        values.put("username", request.getParameter("username"));
-        values.put("password", request.getParameter("password"));
-        values.put("fullname", request.getParameter("fullname"));
-        values.put("email", request.getParameter("email"));
-        values.put("phoneNumber", request.getParameter("phoneNumber"));
-        values.put("gender", request.getParameter("gender"));
-        values.put("address", request.getParameter("address"));
-        values.put("policy", request.getParameter("policy"));
-
+//        values.put("username", request.getParameter("username"));
+//        values.put("password", request.getParameter("password"));
+//        values.put("fullname", request.getParameter("fullname"));
+//        values.put("email", request.getParameter("email"));
+//        values.put("phoneNumber", request.getParameter("phoneNumber"));
+//        values.put("gender", request.getParameter("gender"));
+//        values.put("address", request.getParameter("address"));
+//        values.put("policy", request.getParameter("policy"));
+        values.put("username", StringEscapeUtils.escapeHtml4(request.getParameter("username")));
+        values.put("password", StringEscapeUtils.escapeHtml4(request.getParameter("password")));
+        values.put("fullname", StringEscapeUtils.escapeHtml4(request.getParameter("fullname")));
+        values.put("email", StringEscapeUtils.escapeHtml4(request.getParameter("email")));
+        values.put("phoneNumber", StringEscapeUtils.escapeHtml4(request.getParameter("phoneNumber")));
+        values.put("gender", StringEscapeUtils.escapeHtml4(request.getParameter("gender")));
+        values.put("address", StringEscapeUtils.escapeHtml4(request.getParameter("address")));
+        values.put("policy", StringEscapeUtils.escapeHtml4(request.getParameter("policy")));
         // Kiểm tra các parameter, lưu các vi phạm (nếu có) vào map violations
         Map<String, List<String>> violations = new HashMap<>();
         Optional<User> userFromServer = Protector.of(() -> userService.getByUsername(values.get("username")))
