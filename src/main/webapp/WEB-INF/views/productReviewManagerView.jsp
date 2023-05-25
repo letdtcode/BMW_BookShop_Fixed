@@ -5,6 +5,7 @@
 <fmt:setLocale value="vi_VN"/>
 <!DOCTYPE html>
 <html lang="vi">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
 
 <head>
   <jsp:include page="_meta.jsp"/>

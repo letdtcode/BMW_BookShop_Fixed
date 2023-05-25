@@ -2,7 +2,6 @@ package com.bookshopweb.servlet.client;
 
 import com.bookshopweb.beans.User;
 import com.bookshopweb.service.UserService;
-import com.bookshopweb.utils.HashingUtils;
 import com.bookshopweb.utils.Protector;
 import com.bookshopweb.utils.Validator;
 import org.apache.commons.lang3.StringEscapeUtils;
