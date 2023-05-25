@@ -10,5 +10,6 @@ public interface ConstantUtils {
 //    String DB_PASSWORD = "123456";
 //    String IMAGE_PATH = "/var/webapp/images"; // Dùng "C:\\var\\webapp\\images" trên Windows
     String DB_PASSWORD = "baohuy";
+//    String DB_PASSWORD = "20021223";
     String IMAGE_PATH = "C:/var/webapp/images"; // Dùng "C:\\var\\webapp\\images" trên Windows
 }

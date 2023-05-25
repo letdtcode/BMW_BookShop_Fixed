@@ -46,8 +46,8 @@ public class SigninAdminServlet extends HttpServlet {
                 .isNotNullAndEmpty()
                 .isNotBlankAtBothEnds()
                 .isAtMostOfLength(32)
-                .changeTo(HashingUtils.hash(values.get("password")))
-                .isEqualTo(userFromServer.map(User::getPassword).orElse(""), "Mật khẩu")
+//                .changeTo(HashingUtils.hash(values.get("password")))
+                .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Mật khẩu")
                 .toList());
 
         int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();
