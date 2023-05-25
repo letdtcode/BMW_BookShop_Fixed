@@ -50,14 +50,17 @@ public class SigninServlet extends HttpServlet {
                 .isNotNullAndEmpty()
                 .isNotBlankAtBothEnds()
                 .isAtMostOfLength(32)
-                .changeTo(HashingUtils.hash(values.get("password")))
-                .isEqualTo(userFromServer.map(User::getPassword).orElse(""), "Mật khẩu")
+//                .changeTo(HashingUtils.hash(values.get("password")))
+                .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Mật khẩu")
                 .toList());
 
         int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();
 
         if (sumOfViolations == 0 && userFromServer.isPresent()) {
             request.getSession().setAttribute("currentUser", userFromServer.get());
+
+//            test
+            request.getSession().setMaxInactiveInterval(60);
             response.sendRedirect(request.getContextPath() + "/");
         } else {
             request.setAttribute("values", values);
