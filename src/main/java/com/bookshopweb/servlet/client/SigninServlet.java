@@ -31,10 +31,10 @@ public class SigninServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String> values = new HashMap<>();
-        values.put("username", request.getParameter("username"));
-        values.put("password", request.getParameter("password"));
-//        values.put("username", StringEscapeUtils.escapeHtml4(request.getParameter("username")));
-//        values.put("password", StringEscapeUtils.escapeHtml4(request.getParameter("password")));
+//        values.put("username", request.getParameter("username"));
+//        values.put("password", request.getParameter("password"));
+        values.put("username", StringEscapeUtils.escapeHtml4(request.getParameter("username")));
+        values.put("password", StringEscapeUtils.escapeHtml4(request.getParameter("password")));
 
         Map<String, List<String>> violations = new HashMap<>();
         Optional<User> userFromServer = Protector.of(() -> userService.getByUsername(values.get("username")))
@@ -42,14 +42,13 @@ public class SigninServlet extends HttpServlet {
         violations.put("usernameViolations", Validator.of(values.get("username"))
                 .isNotNullAndEmpty()
                 .isNotBlankAtBothEnds()
-                .isAtMostOfLength(1000)
+                .isAtMostOfLength(25)
                 .isExistent(userFromServer.isPresent(), "Tên đăng nhập")
                 .toList());
         violations.put("passwordViolations", Validator.of(values.get("password"))
                 .isNotNullAndEmpty()
                 .isNotBlankAtBothEnds()
                 .isAtMostOfLength(32)
-//                .changeTo(HashingUtils.hash(values.get("password")))
                 .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Mật khẩu")
                 .toList());
 
