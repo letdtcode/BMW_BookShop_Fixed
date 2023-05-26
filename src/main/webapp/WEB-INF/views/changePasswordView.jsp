@@ -4,6 +4,7 @@
 <fmt:setLocale value="vi_VN"/>
 <!DOCTYPE html>
 <html lang="vi">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
 
 <head>
   <jsp:include page="_meta.jsp"/>
@@ -43,6 +44,8 @@
                   <div class="alert alert-danger" role="alert">${requestScope.errorMessage}</div>
                 </c:if>
                 <div class="col-lg-6">
+
+                  <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                   <form action="${pageContext.request.contextPath}/changePassword" method="post">
                     <div class="mb-3">
                       <label for="inputCurrentPassword" class="form-label">
