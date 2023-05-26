@@ -98,6 +98,7 @@ public class Validator<T> {
 //        String password = o.toString();
 //        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hashedPasswordUser);
         Optional<String> violation = Optional.ofNullable(o)
+                .filter(obj -> !(obj.equals("") || hashedPasswordUser.equals("")))
                 .filter(obj -> !BCrypt.verifyer().verify(obj.toString().toCharArray(), hashedPasswordUser).verified)
                 .map(obj -> String.format("%s không đúng", subjectName));
         violation.ifPresent(violations::add);
