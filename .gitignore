@@ -99,3 +99,5 @@ fabric.properties
 
 # Project exclude paths
 /target/
+
+src/main/java/com/bookshopweb/ConstantUtils.java
