@@ -23,7 +23,7 @@ public class SearchServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//      Optional<String> query = Optional.ofNullable(request.getParameter("q")).filter(s -> !s.trim().isEmpty());
+//        Optional<String> query = Optional.ofNullable(request.getParameter("q")).filter(s -> !s.trim().isEmpty());
         Optional<String> query = Optional.ofNullable(StringEscapeUtils.escapeHtml4(request.getParameter("q"))).filter(s -> !s.trim().isEmpty());
 
         if (query.isPresent()) {
@@ -68,5 +68,4 @@ public class SearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
-
 }
