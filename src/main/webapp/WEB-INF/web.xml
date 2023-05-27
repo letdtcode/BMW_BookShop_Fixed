@@ -6,13 +6,13 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>BookShop</web-resource-name>
+            <web-resource-name>MobileStore</web-resource-name>
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        <user-data-constraint>	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
+
 </web-app>
 
 
