@@ -3,6 +3,7 @@ package com.bookshopweb.servlet.client;
 import com.bookshopweb.beans.User;
 import com.bookshopweb.service.UserService;
 import com.bookshopweb.utils.HashingUtils;
+import at.favre.lib.crypto.bcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +44,6 @@ public class ChangePasswordServlet extends HomeServlet {
                 response.getWriter().println("Yêu cầu bị từ chối do lỗi CSRF."); // Hiển thị thông báo lỗi
             }
             else {
-
             Map<String, String> values = new HashMap<>();
             values.put("currentPassword", request.getParameter("currentPassword"));
             values.put("newPassword", request.getParameter("newPassword"));
@@ -52,9 +52,10 @@ public class ChangePasswordServlet extends HomeServlet {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("currentUser");
 
-            boolean currentPasswordEqualsUserPassword = HashingUtils.hash(values.get("currentPassword")).equals(user.getPassword());
+            //boolean currentPasswordEqualsUserPassword = HashingUtils.hash(values.get("currentPassword")).equals(user.getPassword());
+            boolean currentPasswordEqualsUserPassword = BCrypt.verifyer().verify(values.get("currentPassword").toCharArray(), user.getPassword()).verified;
             boolean newPasswordEqualsNewPasswordAgain = values.get("newPassword").equals(values.get("newPasswordAgain"));
-
+            System.out.println(user.getPassword());
             if (currentPasswordEqualsUserPassword && newPasswordEqualsNewPasswordAgain) {
                 String newPassword = HashingUtils.hash(values.get("newPassword"));
                 userService.changePassword(user.getId(), newPassword);
