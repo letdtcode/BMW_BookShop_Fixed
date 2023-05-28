@@ -109,9 +109,18 @@
 
 <jsp:include page="_footer.jsp"/>
 </body>
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 35c468057b4a7d84738df7ed52b691746f75f93e
 <script>
   if(top.location!=self.location) {
     parent.location = self.location;
   }
 </script>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 35c468057b4a7d84738df7ed52b691746f75f93e
 </html>

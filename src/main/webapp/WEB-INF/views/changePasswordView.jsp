@@ -44,6 +44,7 @@
                 </c:if>
                 <div class="col-lg-6">
                   <form action="${pageContext.request.contextPath}/changePassword" method="post">
+                    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                     <div class="mb-3">
                       <label for="inputCurrentPassword" class="form-label">
                         Nhập mật khẩu hiện tại

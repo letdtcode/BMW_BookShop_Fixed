@@ -8,7 +8,7 @@ CREATE TABLE bookshopdb.user
 (
     id          BIGINT       NOT NULL AUTO_INCREMENT,
     username    VARCHAR(25)  NOT NULL,
-    password    VARCHAR(32)  NOT NULL,
+    password    VARCHAR(60)  NOT NULL,
     fullname    VARCHAR(50)  NOT NULL,
     email       VARCHAR(50)  NOT NULL,
     phoneNumber VARCHAR(11)  NOT NULL,
@@ -203,11 +203,11 @@ CREATE TABLE bookshopdb.wishlist_item
 -- insert data
 
 -- user
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user1','202CB962AC59075B964B07152D234B70','Dunn Mcpherson','dunnmcpherson@recrisys.com','0989894900',0,'8 Virginia Place, Troy, Norway','ADMIN');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user2','202CB962AC59075B964B07152D234B70','Foreman Carter','foremancarter@recrisys.com','0993194154',0,'28 Richardson Street, Layhill, Netherlands','EMPLOYEE');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user3','202CB962AC59075B964B07152D234B70','Felecia Cabrera','feleciacabrera@recrisys.com','0930174351',1,'41 Linden Street, Slovan, S. Georgia and S. Sandwich Isls.','EMPLOYEE');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user4','202CB962AC59075B964B07152D234B70','Juliette Mcdowell','juliettemcdowell@recrisys.com','0911925643',1,'5 Schenck Court, Dana, Cyprus','CUSTOMER');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user5','202CB962AC59075B964B07152D234B70','Vilma Spencer','vilmaspencer@recrisys.com','0987509391',1,'5 Pooles Lane, Allentown, Zambia','CUSTOMER');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user1','$2a$12$VK3XkjLkqCEAUG/5CLcxb.MNILva4ooS7zjeYcfSRPTMQTv5Ly1oK','Dunn Mcpherson','dunnmcpherson@recrisys.com','0989894900',0,'8 Virginia Place, Troy, Norway','ADMIN');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user2','$2a$12$VK3XkjLkqCEAUG/5CLcxb.MNILva4ooS7zjeYcfSRPTMQTv5Ly1oK','Foreman Carter','foremancarter@recrisys.com','0993194154',0,'28 Richardson Street, Layhill, Netherlands','EMPLOYEE');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user3','$2a$12$VK3XkjLkqCEAUG/5CLcxb.MNILva4ooS7zjeYcfSRPTMQTv5Ly1oK','Felecia Cabrera','feleciacabrera@recrisys.com','0930174351',1,'41 Linden Street, Slovan, S. Georgia and S. Sandwich Isls.','EMPLOYEE');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user4','$2a$12$VK3XkjLkqCEAUG/5CLcxb.MNILva4ooS7zjeYcfSRPTMQTv5Ly1oK','Juliette Mcdowell','juliettemcdowell@recrisys.com','0911925643',1,'5 Schenck Court, Dana, Cyprus','CUSTOMER');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user5','$2a$12$VK3XkjLkqCEAUG/5CLcxb.MNILva4ooS7zjeYcfSRPTMQTv5Ly1oK','Vilma Spencer','vilmaspencer@recrisys.com','0987509391',1,'5 Pooles Lane, Allentown, Zambia','CUSTOMER');
 
 -- product
 INSERT INTO bookshopdb.product(`name`,`price`,`discount`,`quantity`,`totalBuy`,`author`,`pages`,`publisher`,`yearPublishing`,`description`,`imageName`,`shop`,`createdAt`,`updatedAt`,`startsAt`,`endsAt`) VALUES ('Sách Toyletry',466183,0,86,86,'Stafford Hayden',250,'NXB Giáo dục',2013,'Consequat cupidatat magna nostrud ullamco non commodo esse. Veniam anim ipsum duis cillum cillum exercitation deserunt irure sint eiusmod. Duis consectetur adipisicing aliquip magna eiusmod ullamco ut ad ipsum nostrud dolore id. Ex ullamco nulla Lorem consequat sunt exercitation cillum adipisicing.\r\nProident labore ut qui esse cupidatat deserunt occaecat dolor in. Ad nulla reprehenderit pariatur esse enim ullamco do incididunt anim do excepteur est dolore excepteur. Laboris voluptate cupidatat anim dolore eiusmod in id fugiat est cupidatat pariatur mollit. Mollit irure proident enim consequat irure ipsum proident amet aliqua. Irure ad dolore laboris elit reprehenderit officia ex.\r\n','temp-10075522682831764585.jpg',0,'2021-03-23 08:22:50',NULL,NULL,NULL);
