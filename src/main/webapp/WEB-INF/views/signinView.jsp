@@ -22,7 +22,7 @@
                  class="form-control ${not empty requestScope.violations.usernameViolations
                    ? 'is-invalid' : (not empty requestScope.values.username ? 'is-valid' : '')}"
                  placeholder="Tên đăng nhập"
-                 type="text"
+                 required type="text"
                  autocomplete="off"
                  value="${requestScope.values.username}">
           <c:if test="${not empty requestScope.violations.usernameViolations}">
@@ -40,7 +40,7 @@
                  class="form-control ${not empty requestScope.violations.passwordViolations
                    ? 'is-invalid' : (not empty requestScope.values.password ? 'is-valid' : '')}"
                  placeholder="Mật khẩu"
-                 type="password"
+                 required type="password"
                  autocomplete="off"
                  value="${requestScope.values.password}">
           <c:if test="${not empty requestScope.violations.passwordViolations}">
