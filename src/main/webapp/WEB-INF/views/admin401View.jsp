@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
-<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
 
 <head>
   <jsp:include page="_meta.jsp"/>
