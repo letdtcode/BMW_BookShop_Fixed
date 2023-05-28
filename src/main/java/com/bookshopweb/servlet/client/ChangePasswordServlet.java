@@ -4,6 +4,7 @@ import com.bookshopweb.beans.User;
 import com.bookshopweb.service.UserService;
 import com.bookshopweb.utils.HashingUtils;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,8 @@ public class ChangePasswordServlet extends HomeServlet {
         if (csrfToken == null || !csrfToken.equals(storedToken)) {
 //             Mã thông báo CSRF không hợp lệ, xử lý từ chối yêu cầu
             response.setStatus(HttpServletResponse.SC_FORBIDDEN); // Trả về mã lỗi 403 Forbidden
-            response.getWriter().println("Yêu cầu bị từ chối do lỗi CSRF."); // Hiển thị thông báo lỗi
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/views/error.jsp");
+            dispatcher.forward(request, response);
         } else {
             Map<String, String> values = new HashMap<>();
             values.put("currentPassword", request.getParameter("currentPassword"));
