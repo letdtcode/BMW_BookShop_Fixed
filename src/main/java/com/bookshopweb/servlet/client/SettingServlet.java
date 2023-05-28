@@ -69,7 +69,6 @@ public class SettingServlet extends HttpServlet {
             request.setAttribute("user", newUser);
             request.getSession().setAttribute("currentUser", newUser);
         }
-
         request.getRequestDispatcher("WEB-INF/views/settingView.jsp").forward(request, response);
     }
 }

@@ -7,6 +7,7 @@
 
 <head>
   <jsp:include page="_meta.jsp"/>
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <title>Giỏ hàng</title>
 
   <!-- Custom Scripts -->
