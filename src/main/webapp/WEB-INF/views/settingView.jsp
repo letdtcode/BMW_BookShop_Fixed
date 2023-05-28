@@ -43,38 +43,22 @@
                   <div class="alert alert-danger" role="alert">${requestScope.errorMessage}</div>
                 </c:if>
                 <div class="col-lg-6">
-                  <form action="${pageContext.request.contextPath}/setting" method="post">
+                  <form id="form-setting-user" action="${pageContext.request.contextPath}/setting" method="post">
                     <div class="mb-3">
                       <label for="inputUsername" class="form-label">Tên đăng nhập</label>
-                      <input type="text"
-                             class="form-control"
-                             id="inputUsername"
-                             name="username"
-                             value="${requestScope.user.username}">
+                      <input required type="text" class="form-control" id="inputUsername" name="username" value="${requestScope.user.username}"/>
                     </div>
                     <div class="mb-3">
                       <label for="inputFullname" class="form-label">Họ và tên</label>
-                      <input type="text"
-                             class="form-control"
-                             id="inputFullname"
-                             name="fullname"
-                             value="${requestScope.user.fullname}">
+                      <input required type="text" class="form-control" id="inputFullname" name="fullname" value="${requestScope.user.fullname}"/>
                     </div>
                     <div class="mb-3">
                       <label for="inputEmail" class="form-label">Email</label>
-                      <input type="email"
-                             class="form-control"
-                             id="inputEmail"
-                             name="email"
-                             value="${requestScope.user.email}">
+                      <input required type="email" class="form-control" id="inputEmail" name="email" value="${requestScope.user.email}"/>
                     </div>
                     <div class="mb-3">
                       <label for="inputPhoneNumber" class="form-label">Số điện thoại</label>
-                      <input type="text"
-                             class="form-control"
-                             id="inputPhoneNumber"
-                             name="phoneNumber"
-                             value="${requestScope.user.phoneNumber}">
+                      <input required type="text" class="form-control" id="inputPhoneNumber" name="phoneNumber" value="${requestScope.user.phoneNumber}"/>
                     </div>
                     <div class="mb-3">
                       <div class="form-check d-inline-block me-4">
@@ -98,11 +82,7 @@
                     </div>
                     <div class="mb-3">
                       <label for="inputAddress" class="form-label">Địa chỉ</label>
-                      <input type="text"
-                             class="form-control"
-                             id="inputAddress"
-                             name="address"
-                             value="${requestScope.user.address}">
+                      <input required type="text" class="form-control" id="inputAddress" name="address" value="${requestScope.user.address}"/>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Cập nhật thông tin mới</button>
                   </form>
@@ -116,8 +96,13 @@
   </div> <!-- container.// -->
 </section> <!-- section-content.// -->
 
-
 <jsp:include page="_footer.jsp"/>
+<%--<script>--%>
+<%--  $('#form-setting-user').submit(function (e){--%>
+
+<%--  })--%>
+<%--</script>--%>
+<%--<script src="<%=request.getContextPath()%>/assets/validate.js"></script>--%>
 </body>
 
 </html>
