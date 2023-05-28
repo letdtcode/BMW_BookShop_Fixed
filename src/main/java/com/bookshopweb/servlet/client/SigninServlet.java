@@ -29,6 +29,7 @@ public class SigninServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
         response.addHeader("X-Frame-Options", "DENY");
         request.getRequestDispatcher("/WEB-INF/views/signinView.jsp").forward(request, response);
@@ -122,6 +123,7 @@ public class SigninServlet extends HttpServlet {
         Cookie resetLoginAttemptsCookie = new Cookie(username, username);
         resetLoginAttemptsCookie.setMaxAge(0); // Set max age to 0 to delete the cookie
         resetLoginAttemptsCookie.setPath("/");
+        resetLoginAttemptsCookie.setHttpOnly(false);
         response.addCookie(resetLoginAttemptsCookie);
     }
 
