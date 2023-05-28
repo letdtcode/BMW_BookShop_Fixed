@@ -53,6 +53,7 @@ hs_err_pid*
 # When using Gradle or Maven with auto-import, you should exclude module files,
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
+<<<<<<< HEAD
 .idea/artifacts
  .idea/compiler.xml
  .idea/jarRepositories.xml
@@ -61,6 +62,17 @@ hs_err_pid*
  .idea/modules
 # *.iml
 # *.ipr
+=======
+ .idea/artifacts
+ .idea/compiler.xml
+ .idea/jarRepositories.xml
+ .idea/modules.xml
+ .idea/misc.xml
+ .idea/*.iml
+ .idea/modules
+ *.iml
+ *.ipr
+>>>>>>> f852f0ba167eeeb412c776461a09375e94854945
 
 # CMake
 cmake-build-*/
@@ -98,3 +110,5 @@ fabric.properties
 
 # Project exclude paths
 /target/
+
+src/main/java/com/bookshopweb/ConstantUtils.java
