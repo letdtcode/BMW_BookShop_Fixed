@@ -5,6 +5,7 @@ import com.bookshopweb.service.UserService;
 import com.bookshopweb.utils.HashingUtils;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,21 +30,20 @@ public class ChangePasswordServlet extends HomeServlet {
         response.addHeader("X-Frame-Options", "DENY");
 
         request.getRequestDispatcher("WEB-INF/views/changePasswordView.jsp").forward(request, response);
-        }
+    }
 
-        @Override
-        protected void doPost (HttpServletRequest request, HttpServletResponse response) throws
-        ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//            String csrfToken = request.getParameter("csrfToken");
-//            String storedToken = (String) request.getSession().getAttribute("csrfToken");
-//
-//            if (csrfToken == null || !csrfToken.equals(storedToken)) {
-////             Mã thông báo CSRF không hợp lệ, xử lý từ chối yêu cầu
-//                response.setStatus(HttpServletResponse.SC_FORBIDDEN); // Trả về mã lỗi 403 Forbidden
-//                response.getWriter().println("Yêu cầu bị từ chối do lỗi CSRF."); // Hiển thị thông báo lỗi
-//            }
-//            else {
+        String csrfToken = request.getParameter("csrfToken");
+        String storedToken = (String) request.getSession().getAttribute("csrfToken");
+
+        if (csrfToken == null || !csrfToken.equals(storedToken)) {
+//             Mã thông báo CSRF không hợp lệ, xử lý từ chối yêu cầu
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // Trả về mã lỗi 403 Forbidden
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/error.jsp");
+            dispatcher.forward(request, response);
+        } else {
             Map<String, String> values = new HashMap<>();
             values.put("currentPassword", request.getParameter("currentPassword"));
             values.put("newPassword", request.getParameter("newPassword"));
@@ -68,5 +68,5 @@ public class ChangePasswordServlet extends HomeServlet {
 
             request.getRequestDispatcher("/WEB-INF/views/changePasswordView.jsp").forward(request, response);
         }
-//    }
+    }
 }
