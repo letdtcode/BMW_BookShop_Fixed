@@ -86,6 +86,7 @@ public class OrderServlet extends HttpServlet {
         }
         response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
         response.addHeader("X-Frame-Options", "DENY");
+
         request.getRequestDispatcher("/WEB-INF/views/orderView.jsp").forward(request, response);
     }
 
