@@ -10,10 +10,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -25,7 +22,7 @@ import java.util.Optional;
 public class SigninServlet extends HttpServlet {
     private final UserService userService = new UserService();
 
-    private static final String LOGIN_ATTEMPTS_COOKIE_NAME = "loginAttempts";
+    private static final String LOGIN_ATTEMPTS_SESSION_NAME = "loginAttempts";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,22 +33,20 @@ public class SigninServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String> values = new HashMap<>();
-        values.put("username", request.getParameter("username"));
+        values.put("username", StringEscapeUtils.escapeHtml4(request.getParameter("username")));
         values.put("password", StringEscapeUtils.escapeHtml4(request.getParameter("password")));
 
         // Kiểm tra số lần đăng nhập trước đó cho username
         int loginAttempts = getLoginAttempts(request, values.get("username"));
-
         Map<String, List<String>> violations = new HashMap<>();
-               Optional<User> userFromServer = Protector.of(() -> userService.getByUsername(values.get("username")))
+        Optional<User> userFromServer = Protector.of(() -> userService.getByUsername(values.get("username")))
                 .get(Optional::empty);
-        // Tăng số lần đăng nhập
-
-        // Cập nhật cookie loginAttempts
 
         if (loginAttempts < 5) {
+            // Tăng số lần đăng nhập
             loginAttempts++;
-            updateLoginAttemptsCookie(response, values.get("username"), loginAttempts);
+            // Cập nhật session loginAttempts
+            updateLoginAttempts(request, values.get("username"), loginAttempts);
             violations.put("usernameViolations", Validator.of(values.get("username"))
                     .isNotNullAndEmpty()
                     .isNotBlankAtBothEnds()
@@ -62,20 +57,17 @@ public class SigninServlet extends HttpServlet {
                     .isNotNullAndEmpty()
                     .isNotBlankAtBothEnds()
                     .isAtMostOfLength(32)
-                    .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Mật khẩu")
+                    .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""),  "Password")
                     .toList());
-
             int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();
 
             if (sumOfViolations == 0 && userFromServer.isPresent()) {
-                // Xóa cookie loginAttempts khi đăng nhập thành công
-                clearLoginAttemptsCookie(response, values.get("username"));
-
+                // Xóa sessison loginAttempts khi đăng nhập thành công
+                clearLoginAttempts(request, values.get("username"));
                 request.getSession().setAttribute("currentUser", userFromServer.get());
                 request.getSession().setMaxInactiveInterval(60);
                 response.sendRedirect(request.getContextPath() + "/");
             } else {
-                // Kiểm tra số lần đăng nhập sai và cập nhật cookie
                 request.setAttribute("values", values);
                 request.setAttribute("violations", violations);
                 request.getRequestDispatcher("/WEB-INF/views/signinView.jsp").forward(request, response);
@@ -93,36 +85,21 @@ public class SigninServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/signinView.jsp").forward(request, response);
         }
     }
-
     private int getLoginAttempts(HttpServletRequest request, String username) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("loginAttempts" + username)) { // Thêm prefix LOGIN_ATTEMPTS_COOKIE_NAME vào tên cookie
-                    try {
-                        return Integer.parseInt(cookie.getValue());
-                    } catch (NumberFormatException e) {
-                        // Xử lý ngoại lệ khi giá trị cookie không hợp lệ
-                    }
-                }
-            }
-        }
-        return 0;
+        HttpSession session = request.getSession();
+        Integer loginAttempts = (Integer) session.getAttribute(LOGIN_ATTEMPTS_SESSION_NAME + "_" + username);
+        return (loginAttempts != null) ? loginAttempts : 0;
+    }
+    private void updateLoginAttempts(HttpServletRequest request, String username, int loginAttempts) {
+        HttpSession session = request.getSession();
+        session.setAttribute(LOGIN_ATTEMPTS_SESSION_NAME + "_" + username, loginAttempts);
+        request.getSession().setMaxInactiveInterval(10*60);
     }
 
-    private void updateLoginAttemptsCookie(HttpServletResponse response, String username, int loginAttempts) {
-        Cookie loginAttemptsCookie = new Cookie("loginAttempts" + username, username); // Thêm prefix LOGIN_ATTEMPTS_COOKIE_NAME vào tên cookie
-        loginAttemptsCookie.setMaxAge(15 * 60);
-        loginAttemptsCookie.setPath("/");
-        loginAttemptsCookie.setValue(String.valueOf(loginAttempts));
-        response.addCookie(loginAttemptsCookie);
+    private void clearLoginAttempts(HttpServletRequest request, String username) {
+        HttpSession session = request.getSession();
+        session.removeAttribute(LOGIN_ATTEMPTS_SESSION_NAME + "_" + username);
     }
 
-    private void clearLoginAttemptsCookie(HttpServletResponse response, String username) {
-        Cookie resetLoginAttemptsCookie = new Cookie("loginAttempts" + username, username); // Thêm prefix LOGIN_ATTEMPTS_COOKIE_NAME vào tên cookie
-        resetLoginAttemptsCookie.setMaxAge(0); // Set max age to 0 to delete the cookie
-        resetLoginAttemptsCookie.setPath("/");
-        response.addCookie(resetLoginAttemptsCookie);
-    }
 }
 

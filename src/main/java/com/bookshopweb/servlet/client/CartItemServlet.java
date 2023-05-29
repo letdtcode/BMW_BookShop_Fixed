@@ -33,9 +33,6 @@ public class CartItemServlet extends HttpServlet {
     private final CartService cartService = new CartService();
     private final CartItemService cartItemService = new CartItemService();
     private final UserService userService = new UserService();
-
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy userId và đối tượng user từ database theo userId này
@@ -74,8 +71,6 @@ public class CartItemServlet extends HttpServlet {
             String errorMessage = "Đã có lỗi truy vấn!";
             JsonUtils.out(response, new ErrorMessage(404, errorMessage), HttpServletResponse.SC_NOT_FOUND);
         }
-        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        response.addHeader("X-Frame-Options", "DENY");
     }
 
     @Override

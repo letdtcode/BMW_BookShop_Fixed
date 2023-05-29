@@ -1,6 +1,7 @@
 package com.bookshopweb.servlet.general;
 
 import com.bookshopweb.utils.ConstantUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +44,7 @@ public class ImageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // Get requested image by path info.
-        String requestedImage = request.getPathInfo();
+        String requestedImage = StringEscapeUtils.escapeHtml4(request.getPathInfo());
 
         // Check if file name is actually supplied to the request URI.
         if (requestedImage == null) {
@@ -54,7 +55,7 @@ public class ImageServlet extends HttpServlet {
         }
 
         // Decode the file name (might contain spaces and on) and prepare file object.
-        File image = new File(imagePath, URLDecoder.decode(requestedImage, "UTF-8"));
+        File image = new File(StringEscapeUtils.escapeHtml4(imagePath), URLDecoder.decode(requestedImage, "UTF-8"));
 
         // Check if file actually exists in filesystem.
         if (!image.exists()) {

@@ -46,6 +46,7 @@ public class UpdateProductServlet extends HttpServlet {
             request.setAttribute("categories", categories);
             categoryFromServer.ifPresent(category -> request.setAttribute("categoryId", category.getId()));
             request.getRequestDispatcher("/WEB-INF/views/updateProductView.jsp").forward(request, response);
+
         } else {
             response.sendRedirect(request.getContextPath() + "/admin/productManager");
         }
@@ -171,6 +172,7 @@ public class UpdateProductServlet extends HttpServlet {
         request.setAttribute("product", product);
         request.setAttribute("categories", categories);
         request.setAttribute("categoryId", categoryId);
+
         request.getRequestDispatcher("/WEB-INF/views/updateProductView.jsp").forward(request, response);
     }
 }

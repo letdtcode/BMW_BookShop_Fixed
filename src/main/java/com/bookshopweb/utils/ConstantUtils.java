@@ -5,6 +5,8 @@ public interface ConstantUtils {
     String SERVER_NAME = "localhost";
     String DB_NAME = "bookshopdb";
     String DB_USERNAME = "root";
+
     String DB_PASSWORD = "baohuy";
-    String IMAGE_PATH = "C:/var/webapp/images"; // Dùng "C:\\var\\webapp\\images" trên Windows
+    String IMAGE_PATH = "C://var/webapp/images"; // Dùng "C:\\var\\webapp\\images" trên Windows
+
 }

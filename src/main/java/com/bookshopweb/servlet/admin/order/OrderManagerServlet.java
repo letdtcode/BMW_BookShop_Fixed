@@ -52,6 +52,7 @@ public class OrderManagerServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("page", page);
         request.setAttribute("orders", orders);
+
         request.getRequestDispatcher("/WEB-INF/views/orderManagerView.jsp").forward(request, response);
     }
 

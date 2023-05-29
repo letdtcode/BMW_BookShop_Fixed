@@ -28,6 +28,7 @@ public class CreateCategoryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         request.getRequestDispatcher("/WEB-INF/views/createCategoryView.jsp").forward(request, response);
     }
 

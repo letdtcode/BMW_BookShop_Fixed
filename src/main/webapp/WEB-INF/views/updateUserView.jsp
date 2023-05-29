@@ -4,7 +4,6 @@
 <fmt:setLocale value="vi_VN"/>
 <!DOCTYPE html>
 <html lang="vi">
-<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
 
 <head>
   <jsp:include page="_meta.jsp"/>
@@ -40,7 +39,7 @@
                  id="user-username"
                  name="username"
                  value="${requestScope.user.username}"
-                 required>
+                 required maxlength="25">
           <c:if test="${not empty requestScope.violations.usernameViolations}">
             <div class="invalid-feedback">
               <ul class="list-unstyled">
