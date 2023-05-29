@@ -33,7 +33,7 @@ public class SigninServlet extends HttpServlet {
         Map<String, String> values = new HashMap<>();
 //        values.put("username", request.getParameter("username"));
 //        values.put("password", request.getParameter("password"));
-        values.put("username",request.getParameter("username"));
+        values.put("username",StringEscapeUtils.escapeHtml4(request.getParameter("username")));
         values.put("password", StringEscapeUtils.escapeHtml4(request.getParameter("password")));
 
         Map<String, List<String>> violations = new HashMap<>();
