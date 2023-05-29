@@ -45,11 +45,12 @@ public class SigninServlet extends HttpServlet {
         Map<String, List<String>> violations = new HashMap<>();
                Optional<User> userFromServer = Protector.of(() -> userService.getByUsername(values.get("username")))
                 .get(Optional::empty);
+        // Tăng số lần đăng nhập
 
-        if (loginAttempts <= 5) {
-            // Tăng số lần đăng nhập
+        // Cập nhật cookie loginAttempts
+
+        if (loginAttempts < 5) {
             loginAttempts++;
-            // Cập nhật cookie loginAttempts
             updateLoginAttemptsCookie(response, values.get("username"), loginAttempts);
             violations.put("usernameViolations", Validator.of(values.get("username"))
                     .isNotNullAndEmpty()
@@ -97,7 +98,7 @@ public class SigninServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ( cookie.getName().equals(username)) {
+                if (cookie.getName().equals("loginAttempts" + username)) { // Thêm prefix LOGIN_ATTEMPTS_COOKIE_NAME vào tên cookie
                     try {
                         return Integer.parseInt(cookie.getValue());
                     } catch (NumberFormatException e) {
@@ -109,26 +110,19 @@ public class SigninServlet extends HttpServlet {
         return 0;
     }
 
-
     private void updateLoginAttemptsCookie(HttpServletResponse response, String username, int loginAttempts) {
-        Cookie loginAttemptsCookie = new Cookie(username, username);
-        loginAttemptsCookie.setMaxAge(10 *60);
+        Cookie loginAttemptsCookie = new Cookie("loginAttempts" + username, username); // Thêm prefix LOGIN_ATTEMPTS_COOKIE_NAME vào tên cookie
+        loginAttemptsCookie.setMaxAge(15 * 60);
         loginAttemptsCookie.setPath("/");
         loginAttemptsCookie.setValue(String.valueOf(loginAttempts));
         response.addCookie(loginAttemptsCookie);
     }
 
     private void clearLoginAttemptsCookie(HttpServletResponse response, String username) {
-        Cookie resetLoginAttemptsCookie = new Cookie(username, username);
+        Cookie resetLoginAttemptsCookie = new Cookie("loginAttempts" + username, username); // Thêm prefix LOGIN_ATTEMPTS_COOKIE_NAME vào tên cookie
         resetLoginAttemptsCookie.setMaxAge(0); // Set max age to 0 to delete the cookie
         resetLoginAttemptsCookie.setPath("/");
         response.addCookie(resetLoginAttemptsCookie);
-    }
-
-    private void handleExceededLoginAttempts(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Xử lý khi vượt quá số lần đăng nhập sai cho phép
-        // Ví dụ: Chuyển hướng đến trang thông báo hoặc chặn tài khoản
-        response.sendRedirect("https://utex.hcmute.edu.vn/login/index.php");
     }
 }
 
