@@ -101,14 +101,10 @@ public class ProductServlet extends HttpServlet {
             request.setAttribute("relatedProducts", relatedProducts);
             request.setAttribute("isWishlistItem", isWishlistItem);
 
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             request.getRequestDispatcher("/WEB-INF/views/productView.jsp").forward(request, response);
         } else {
             // Nếu id không phải là số nguyên hoặc không hiện diện trong bảng product
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
+
             response.sendRedirect(request.getContextPath() + "/");
         }
     }

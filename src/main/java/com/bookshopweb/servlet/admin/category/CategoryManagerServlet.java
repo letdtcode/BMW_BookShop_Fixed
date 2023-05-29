@@ -40,6 +40,7 @@ public class CategoryManagerServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("page", page);
         request.setAttribute("categories", categories);
+
         request.getRequestDispatcher("/WEB-INF/views/categoryManagerView.jsp").forward(request, response);
     }
 

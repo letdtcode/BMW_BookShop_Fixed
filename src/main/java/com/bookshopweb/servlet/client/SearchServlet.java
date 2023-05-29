@@ -3,6 +3,7 @@ package com.bookshopweb.servlet.client;
 import com.bookshopweb.beans.Product;
 import com.bookshopweb.service.ProductService;
 import com.bookshopweb.utils.Protector;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +24,7 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Optional<String> query = Optional.ofNullable(request.getParameter("q")).filter(s -> !s.trim().isEmpty());
+//        Optional<String> query = Optional.ofNullable(StringEscapeUtils.escapeHtml4(request.getParameter("q"))).filter(s -> !s.trim().isEmpty());
 
         if (query.isPresent()) {
             String queryStr = query.get();
@@ -51,13 +53,9 @@ public class SearchServlet extends HttpServlet {
             request.setAttribute("page", page);
             request.setAttribute("products", products);
 
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
             request.getRequestDispatcher("/WEB-INF/views/searchView.jsp").forward(request, response);
         } else {
 
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
             response.sendRedirect(request.getContextPath() + "/");
         }
     }

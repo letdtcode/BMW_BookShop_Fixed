@@ -34,6 +34,7 @@ public class UpdateCategoryServlet extends HttpServlet {
 
         if (categoryFromServer.isPresent()) {
             request.setAttribute("category", categoryFromServer.get());
+
             request.getRequestDispatcher("/WEB-INF/views/updateCategoryView.jsp").forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + "/admin/categoryManager");
@@ -92,6 +93,7 @@ public class UpdateCategoryServlet extends HttpServlet {
         } else {
             request.setAttribute("category", category);
             request.setAttribute("violations", violations);
+
             request.setAttribute("deleteImage", deleteImage);
         }
 

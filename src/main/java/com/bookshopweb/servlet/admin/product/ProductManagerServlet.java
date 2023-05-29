@@ -40,6 +40,7 @@ public class ProductManagerServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("page", page);
         request.setAttribute("products", products);
+
         request.getRequestDispatcher("/WEB-INF/views/productManagerView.jsp").forward(request, response);
     }
 

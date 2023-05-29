@@ -52,6 +52,7 @@ public class ProductReviewManagerServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("page", page);
         request.setAttribute("productReviews", productReviews);
+
         request.getRequestDispatcher("/WEB-INF/views/productReviewManagerView.jsp").forward(request, response);
     }
 

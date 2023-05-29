@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
-<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
 
 <head>
   <jsp:include page="_meta.jsp"/>
@@ -27,7 +26,7 @@
                  class="form-control ${not empty requestScope.violations.usernameViolations
                    ? 'is-invalid' : (not empty requestScope.values.username ? 'is-valid' : '')}"
                  placeholder="Tên đăng nhập"
-                 type="text"
+                 required type="text" maxlength="25"
                  autocomplete="off"
                  value="${requestScope.values.username}">
           <c:if test="${not empty requestScope.violations.usernameViolations}">
@@ -45,7 +44,7 @@
                  class="form-control ${not empty requestScope.violations.passwordViolations
                    ? 'is-invalid' : (not empty requestScope.values.password ? 'is-valid' : '')}"
                  placeholder="Mật khẩu"
-                 type="password"
+                 required type="password" maxlength="25"
                  autocomplete="off"
                  value="${requestScope.values.password}">
           <c:if test="${not empty requestScope.violations.passwordViolations}">

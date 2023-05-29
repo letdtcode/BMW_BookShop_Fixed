@@ -40,6 +40,7 @@ public class UserManagerServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("page", page);
         request.setAttribute("users", users);
+
         request.getRequestDispatcher("/WEB-INF/views/userManagerView.jsp").forward(request, response);
     }
 

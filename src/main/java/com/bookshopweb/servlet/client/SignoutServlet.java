@@ -13,8 +13,6 @@ public class SignoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Xóa các attribute trong session
         request.getSession().invalidate();
-        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        response.addHeader("X-Frame-Options", "DENY");
         // Trở về Trang chủ
         response.sendRedirect(request.getContextPath() + "/");
     }

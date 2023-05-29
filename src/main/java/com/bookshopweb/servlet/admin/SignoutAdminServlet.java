@@ -14,6 +14,8 @@ public class SignoutAdminServlet extends HttpServlet {
         // Xóa các attribute trong session
         request.getSession().invalidate();
 
+
+
         // Trở về Trang đăng nhập Admin
         response.sendRedirect(request.getContextPath() + "/admin/signin");
     }

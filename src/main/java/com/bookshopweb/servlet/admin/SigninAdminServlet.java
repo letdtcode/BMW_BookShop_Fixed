@@ -5,6 +5,7 @@ import com.bookshopweb.service.UserService;
 import com.bookshopweb.utils.HashingUtils;
 import com.bookshopweb.utils.Protector;
 import com.bookshopweb.utils.Validator;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,14 +25,15 @@ public class SigninAdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         request.getRequestDispatcher("/WEB-INF/views/signinAdminView.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String> values = new HashMap<>();
-        values.put("username", request.getParameter("username"));
-        values.put("password", request.getParameter("password"));
+        values.put("username", StringEscapeUtils.escapeHtml4(request.getParameter("username")));
+        values.put("password", StringEscapeUtils.escapeHtml4(request.getParameter("password")));
 
         Map<String, List<String>> violations = new HashMap<>();
         Optional<User> userFromServer = Protector.of(() -> userService.getByUsername(values.get("username")))
@@ -47,7 +49,7 @@ public class SigninAdminServlet extends HttpServlet {
                 .isNotBlankAtBothEnds()
                 .isAtMostOfLength(32)
 //                .changeTo(HashingUtils.hash(values.get("password")))
-                .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Mật khẩu")
+                .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Password")
                 .toList());
 
         int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();
@@ -60,11 +62,13 @@ public class SigninAdminServlet extends HttpServlet {
             } else {
                 String errorMessage = "Người dùng không có quyền đăng nhập Admin!";
                 request.setAttribute("errorMessage", errorMessage);
+
                 request.getRequestDispatcher("/WEB-INF/views/signinAdminView.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("values", values);
             request.setAttribute("violations", violations);
+
             request.getRequestDispatcher("/WEB-INF/views/signinAdminView.jsp").forward(request, response);
         }
     }

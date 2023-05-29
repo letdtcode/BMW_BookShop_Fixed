@@ -89,6 +89,12 @@ public class Validator<T> {
         return this;
     }
 
+    public Validator<T> isSpam(boolean existence, String subjectName) {
+        Optional<String> violation = existence ? Optional.empty() : Optional.of(String.format("%s Sai mật khẩu quá 5 lần", subjectName));
+        violation.ifPresent(violations::add);
+        return this;
+    }
+
     public Validator<T> isVerifyerTo(String hashedPasswordUser, String subjectName) {
 //        Optional<String> violation = Optional.ofNullable(o)
 //                .filter(obj -> !String.valueOf(obj).equals(other))
@@ -100,7 +106,7 @@ public class Validator<T> {
         Optional<String> violation = Optional.ofNullable(o)
                 .filter(obj -> !(obj.equals("") || hashedPasswordUser.equals("")))
                 .filter(obj -> !BCrypt.verifyer().verify(obj.toString().toCharArray(), hashedPasswordUser).verified)
-                .map(obj -> String.format("%s không đúng", subjectName));
+                .map(obj -> String.format("%s is incorrect", subjectName));
         violation.ifPresent(violations::add);
         return this;
     }
