@@ -34,9 +34,13 @@ public class DeleteCategoryServlet extends HttpServlet {
                     .fail(e -> request.getSession().setAttribute("errorMessage", errorMessage));
         }
 
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
+
         response.sendRedirect(request.getContextPath() + "/admin/categoryManager");
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
 }

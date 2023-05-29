@@ -106,7 +106,7 @@ public class Validator<T> {
         Optional<String> violation = Optional.ofNullable(o)
                 .filter(obj -> !(obj.equals("") || hashedPasswordUser.equals("")))
                 .filter(obj -> !BCrypt.verifyer().verify(obj.toString().toCharArray(), hashedPasswordUser).verified)
-                .map(obj -> String.format("%s không đúng", subjectName));
+                .map(obj -> String.format("%s is incorrect", subjectName));
         violation.ifPresent(violations::add);
         return this;
     }

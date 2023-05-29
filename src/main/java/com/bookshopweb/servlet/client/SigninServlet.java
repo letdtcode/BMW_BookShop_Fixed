@@ -34,6 +34,7 @@ public class SigninServlet extends HttpServlet {
         response.addHeader("X-Frame-Options", "DENY");
         request.getRequestDispatcher("/WEB-INF/views/signinView.jsp").forward(request, response);
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String> values = new HashMap<>();
@@ -44,7 +45,7 @@ public class SigninServlet extends HttpServlet {
         int loginAttempts = getLoginAttempts(request, values.get("username"));
 
         Map<String, List<String>> violations = new HashMap<>();
-               Optional<User> userFromServer = Protector.of(() -> userService.getByUsername(values.get("username")))
+        Optional<User> userFromServer = Protector.of(() -> userService.getByUsername(values.get("username")))
                 .get(Optional::empty);
 
         if (loginAttempts <= 5) {
@@ -62,7 +63,7 @@ public class SigninServlet extends HttpServlet {
                     .isNotNullAndEmpty()
                     .isNotBlankAtBothEnds()
                     .isAtMostOfLength(32)
-                    .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Mật khẩu")
+                    .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Password")
                     .toList());
 
             int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();
@@ -80,15 +81,14 @@ public class SigninServlet extends HttpServlet {
                 request.setAttribute("violations", violations);
                 request.getRequestDispatcher("/WEB-INF/views/signinView.jsp").forward(request, response);
             }
-        }
-        else {
+        } else {
             violations.put("usernameViolations", Validator.of(values.get("username"))
                     .isNotNullAndEmpty()
                     .isNotBlankAtBothEnds()
                     .isAtMostOfLength(25)
                     .isSpam(false, values.get("username"))
                     .toList());
-            request.setAttribute("values",values);
+            request.setAttribute("values", values);
             request.setAttribute("violations", violations);
             request.getRequestDispatcher("/WEB-INF/views/signinView.jsp").forward(request, response);
         }
@@ -98,7 +98,7 @@ public class SigninServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ( cookie.getName().equals(username)) {
+                if (cookie.getName().equals(username)) {
                     try {
                         return Integer.parseInt(cookie.getValue());
                     } catch (NumberFormatException e) {
@@ -113,18 +113,22 @@ public class SigninServlet extends HttpServlet {
 
     private void updateLoginAttemptsCookie(HttpServletResponse response, String username, int loginAttempts) {
         Cookie loginAttemptsCookie = new Cookie(username, username);
-        loginAttemptsCookie.setMaxAge(10 *60);
+        loginAttemptsCookie.setMaxAge(10 * 60);
         loginAttemptsCookie.setPath("/");
         loginAttemptsCookie.setValue(String.valueOf(loginAttempts));
         response.addCookie(loginAttemptsCookie);
     }
 
     private void clearLoginAttemptsCookie(HttpServletResponse response, String username) {
-        Cookie resetLoginAttemptsCookie = new Cookie(username, username);
-        resetLoginAttemptsCookie.setMaxAge(0); // Set max age to 0 to delete the cookie
-        resetLoginAttemptsCookie.setPath("/");
-        resetLoginAttemptsCookie.setHttpOnly(false);
-        response.addCookie(resetLoginAttemptsCookie);
+        String cookieName = username;
+        String cookieValue = username;
+
+        String httpOnlyAttribute = "; HttpOnly";
+        String secureAttribute = "; Secure";
+        String path = "; Path=/";
+        String sameSiteAttribute = "; SameSite=Strict";
+        String cookieHeader = cookieName + "=" + cookieValue + httpOnlyAttribute + path + sameSiteAttribute + secureAttribute;
+        response.setHeader("Set-Cookie", cookieHeader);
     }
 
     private void handleExceededLoginAttempts(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -30,6 +30,10 @@ public class AdminServlet extends HttpServlet {
         request.setAttribute("totalCategories", totalCategories);
         request.setAttribute("totalProducts", totalProducts);
         request.setAttribute("totalOrders", totalOrders);
+
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
+
         request.getRequestDispatcher("/WEB-INF/views/adminView.jsp").forward(request, response);
     }
 

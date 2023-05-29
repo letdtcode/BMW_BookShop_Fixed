@@ -52,6 +52,10 @@ public class OrderManagerServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("page", page);
         request.setAttribute("orders", orders);
+
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
+
         request.getRequestDispatcher("/WEB-INF/views/orderManagerView.jsp").forward(request, response);
     }
 

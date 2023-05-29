@@ -14,6 +14,9 @@ public class SignoutAdminServlet extends HttpServlet {
         // Xóa các attribute trong session
         request.getSession().invalidate();
 
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
+
         // Trở về Trang đăng nhập Admin
         response.sendRedirect(request.getContextPath() + "/admin/signin");
     }

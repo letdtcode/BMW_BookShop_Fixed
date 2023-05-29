@@ -25,6 +25,8 @@ public class SigninAdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
         request.getRequestDispatcher("/WEB-INF/views/signinAdminView.jsp").forward(request, response);
     }
 
@@ -48,7 +50,7 @@ public class SigninAdminServlet extends HttpServlet {
                 .isNotBlankAtBothEnds()
                 .isAtMostOfLength(32)
 //                .changeTo(HashingUtils.hash(values.get("password")))
-                .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Mật khẩu")
+                .isVerifyerTo(userFromServer.map(User::getPassword).orElse(""), "Password")
                 .toList());
 
         int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();
@@ -61,11 +63,19 @@ public class SigninAdminServlet extends HttpServlet {
             } else {
                 String errorMessage = "Người dùng không có quyền đăng nhập Admin!";
                 request.setAttribute("errorMessage", errorMessage);
+
+                response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+                response.addHeader("X-Frame-Options", "DENY");
+
                 request.getRequestDispatcher("/WEB-INF/views/signinAdminView.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("values", values);
             request.setAttribute("violations", violations);
+
+            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+            response.addHeader("X-Frame-Options", "DENY");
+
             request.getRequestDispatcher("/WEB-INF/views/signinAdminView.jsp").forward(request, response);
         }
     }
