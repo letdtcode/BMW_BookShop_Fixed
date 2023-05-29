@@ -44,8 +44,16 @@ public class OrderManagerDetailServlet extends HttpServlet {
             order.setTotalPrice(calculateTotalPrice(orderItems, order.getDeliveryPrice()));
 
             request.setAttribute("order", order);
+
+            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+            response.addHeader("X-Frame-Options", "DENY");
+
             request.getRequestDispatcher("/WEB-INF/views/orderManagerDetailView.jsp").forward(request, response);
         } else {
+
+            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+            response.addHeader("X-Frame-Options", "DENY");
+
             response.sendRedirect(request.getContextPath() + "/admin/orderManager");
         }
     }

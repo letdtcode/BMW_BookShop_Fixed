@@ -40,6 +40,10 @@ public class UserManagerServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("page", page);
         request.setAttribute("users", users);
+
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
+
         request.getRequestDispatcher("/WEB-INF/views/userManagerView.jsp").forward(request, response);
     }
 

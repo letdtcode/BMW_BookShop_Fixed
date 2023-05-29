@@ -11,6 +11,9 @@ import java.io.IOException;
 public class Admin401Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
         request.getRequestDispatcher("/WEB-INF/views/admin401View.jsp").forward(request, response);
     }
 

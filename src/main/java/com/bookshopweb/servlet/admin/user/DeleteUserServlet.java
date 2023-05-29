@@ -29,7 +29,8 @@ public class DeleteUserServlet extends HttpServlet {
                     .done(r -> request.getSession().setAttribute("successMessage", successMessage))
                     .fail(e -> request.getSession().setAttribute("errorMessage", errorMessage));
         }
-
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
         response.sendRedirect(request.getContextPath() + "/admin/userManager");
     }
 

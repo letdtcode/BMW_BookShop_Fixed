@@ -40,6 +40,9 @@ public class DeleteProductServlet extends HttpServlet {
                     .fail(e -> request.getSession().setAttribute("errorMessage", errorMessage));
         }
 
+        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
+        response.addHeader("X-Frame-Options", "DENY");
+
         response.sendRedirect(request.getContextPath() + "/admin/productManager");
     }
 
