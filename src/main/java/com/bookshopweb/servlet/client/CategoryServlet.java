@@ -114,13 +114,8 @@ public class CategoryServlet extends HttpServlet {
             request.setAttribute("order", orderParam.orElse("totalBuy-DESC"));
             request.setAttribute("filterQueryString",
                     request.getQueryString().replaceAll("^id=\\d{1,5}(&page=\\d{1,5}|)", ""));
-
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
             request.getRequestDispatcher("/WEB-INF/views/categoryView.jsp").forward(request, response);
         } else {
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
             // Nếu id không phải là số nguyên hoặc không hiện diện trong bảng category
             response.sendRedirect(request.getContextPath() + "/");
         }

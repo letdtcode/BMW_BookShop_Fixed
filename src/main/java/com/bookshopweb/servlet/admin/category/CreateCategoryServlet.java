@@ -29,9 +29,6 @@ public class CreateCategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        response.addHeader("X-Frame-Options", "DENY");
-
         request.getRequestDispatcher("/WEB-INF/views/createCategoryView.jsp").forward(request, response);
     }
 
@@ -68,9 +65,6 @@ public class CreateCategoryServlet extends HttpServlet {
             request.setAttribute("category", category);
             request.setAttribute("violations", violations);
         }
-
-        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        response.addHeader("X-Frame-Options", "DENY");
 
         request.getRequestDispatcher("/WEB-INF/views/createCategoryView.jsp").forward(request, response);
     }

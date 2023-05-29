@@ -24,10 +24,6 @@ public class ChangePasswordServlet extends HomeServlet {
         String csrfToken = UUID.randomUUID().toString();
         request.getSession().setAttribute("csrfToken", csrfToken);
 
-
-        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        response.addHeader("X-Frame-Options", "DENY");
-
         request.getRequestDispatcher("WEB-INF/views/changePasswordView.jsp").forward(request, response);
     }
 

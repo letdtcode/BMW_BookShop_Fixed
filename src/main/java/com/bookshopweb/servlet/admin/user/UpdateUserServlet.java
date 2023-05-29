@@ -30,14 +30,8 @@ public class UpdateUserServlet extends HttpServlet {
             User user = userFromServer.get();
             user.setPassword("");
             request.setAttribute("user", user);
-
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             request.getRequestDispatcher("/WEB-INF/views/updateUserView.jsp").forward(request, response);
         } else {
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
             response.sendRedirect(request.getContextPath() + "/admin/userManager");
         }
     }
@@ -122,8 +116,7 @@ public class UpdateUserServlet extends HttpServlet {
             request.setAttribute("user", user);
             request.setAttribute("violations", violations);
         }
-        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        response.addHeader("X-Frame-Options", "DENY");
+
         request.getRequestDispatcher("/WEB-INF/views/updateUserView.jsp").forward(request, response);
     }
 }
