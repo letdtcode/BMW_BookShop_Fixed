@@ -7,6 +7,7 @@ function validateFormRegister(e) {
     if (!passwordRegex.test(password)) {
         validatePasswordShow.html("Mật khẩu không đáp ứng yêu cầu: ít nhất 8 kí tự, có chữ hoa, chữ thường, kí tự đặc biệt và tối đa 15 kí tự.").css('color','red');
         return false;
+    } else {
+        $('#form-register').unbind('submit').submit();
     }
-
 }

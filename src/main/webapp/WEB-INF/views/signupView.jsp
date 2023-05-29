@@ -21,10 +21,10 @@
         <div class="alert alert-danger" role="alert">${requestScope.errorMessage}</div>
       </c:if>
       <h4 class="card-title mb-4">Đăng ký</h4>
-      <form action="${pageContext.request.contextPath}/signup" method="post">
+      <form id="form-register" action="${pageContext.request.contextPath}/signup" method="post">
         <div class="mb-3">
           <label for="inputUsername" class="form-label">Tên đăng nhập</label>
-          <input type="text"
+          <input required type="text"
                  class="form-control ${not empty requestScope.violations.usernameViolations
                    ? 'is-invalid' : (not empty requestScope.values.username ? 'is-valid' : '')}"
                  id="inputUsername"
@@ -42,7 +42,7 @@
         </div>
         <div class="mb-3">
           <label for="inputPassword" class="form-label">Mật khẩu</label>
-          <input type="password"
+          <input required type="password"
                  class="form-control ${not empty requestScope.violations.passwordViolations
                    ? 'is-invalid' : (not empty requestScope.values.password ? 'is-valid' : '')}"
                  id="inputPassword"
@@ -61,7 +61,7 @@
         </div>
         <div class="mb-3">
           <label for="inputFullname" class="form-label">Họ và tên</label>
-          <input type="text"
+          <input required type="text"
                  class="form-control ${not empty requestScope.violations.fullnameViolations
                    ? 'is-invalid' : (not empty requestScope.values.fullname ? 'is-valid' : '')}"
                  id="inputFullname"
@@ -79,7 +79,7 @@
         </div>
         <div class="mb-3">
           <label for="inputEmail" class="form-label">Email</label>
-          <input type="email"
+          <input required type="email"
                  class="form-control ${not empty requestScope.violations.emailViolations
                    ? 'is-invalid' : (not empty requestScope.values.email ? 'is-valid' : '')}"
                  id="inputEmail"
@@ -97,7 +97,7 @@
         </div>
         <div class="mb-3">
           <label for="inputPhoneNumber" class="form-label">Số điện thoại</label>
-          <input type="text"
+          <input required type="text"
                  class="form-control ${not empty requestScope.violations.phoneNumberViolations
                    ? 'is-invalid' : (not empty requestScope.values.phoneNumber ? 'is-valid' : '')}"
                  id="inputPhoneNumber"
@@ -147,7 +147,7 @@
         </div>
         <div class="mb-3">
           <label for="inputAddress" class="form-label">Địa chỉ</label>
-          <input type="text"
+          <input required type="text"
                  class="form-control ${not empty requestScope.violations.addressViolations
                    ? 'is-invalid' : (not empty requestScope.values.address ? 'is-valid' : '')}"
                  id="inputAddress"
@@ -192,6 +192,12 @@
 </section> <!-- section-content.// -->
 
 <jsp:include page="_footer.jsp"/>
+<script>
+  $('#form-register').submit(function (e){
+    validateFormRegister(e)
+  })
+</script>
+<script src="<%=request.getContextPath()%>/assets/validate.js"></script>
 </body>
 
 </html>

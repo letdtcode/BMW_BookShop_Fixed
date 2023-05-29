@@ -35,7 +35,7 @@ public class SigninServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String> values = new HashMap<>();
-        values.put("username", request.getParameter("username"));
+        values.put("username", StringEscapeUtils.escapeHtml4(request.getParameter("username")));
         values.put("password", StringEscapeUtils.escapeHtml4(request.getParameter("password")));
 
         // Kiểm tra số lần đăng nhập trước đó cho username

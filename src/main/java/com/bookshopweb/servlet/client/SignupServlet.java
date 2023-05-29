@@ -5,6 +5,7 @@ import com.bookshopweb.service.UserService;
 import com.bookshopweb.utils.HashingUtils;
 import com.bookshopweb.utils.Protector;
 import com.bookshopweb.utils.Validator;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,13 +31,13 @@ public class SignupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lưu các parameter (tên-giá trị) vào map values
         Map<String, String> values = new HashMap<>();
-        values.put("username", request.getParameter("username"));
+        values.put("username", StringEscapeUtils.escapeHtml4(request.getParameter("username")));
         values.put("password", request.getParameter("password"));
-        values.put("fullname", request.getParameter("fullname"));
-        values.put("email", request.getParameter("email"));
-        values.put("phoneNumber", request.getParameter("phoneNumber"));
+        values.put("fullname", StringEscapeUtils.escapeHtml4(request.getParameter("fullname")));
+        values.put("email", StringEscapeUtils.escapeHtml4(request.getParameter("email")));
+        values.put("phoneNumber", StringEscapeUtils.escapeHtml4(request.getParameter("phoneNumber")));
         values.put("gender", request.getParameter("gender"));
-        values.put("address", request.getParameter("address"));
+        values.put("address", StringEscapeUtils.escapeHtml4(request.getParameter("address")));
         values.put("policy", request.getParameter("policy"));
 
         // Kiểm tra các parameter, lưu các vi phạm (nếu có) vào map violations
