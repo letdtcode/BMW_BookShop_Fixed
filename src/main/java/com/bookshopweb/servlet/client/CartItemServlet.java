@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ public class CartItemServlet extends HttpServlet {
     private final CartService cartService = new CartService();
     private final CartItemService cartItemService = new CartItemService();
     private final UserService userService = new UserService();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy userId và đối tượng user từ database theo userId này
@@ -75,6 +75,10 @@ public class CartItemServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Kiểm tra xác thực người dùng hiện tại
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("currentUser");
+
         // Lấy đối tượng cartItemRequest từ JSON trong request
         CartItemRequest cartItemRequest = JsonUtils.get(request, CartItemRequest.class);
 
@@ -105,7 +109,8 @@ public class CartItemServlet extends HttpServlet {
                 HttpServletResponse.SC_NOT_FOUND);
 
         // Nếu cart của user này đã có trong database (cardId lớn hơn O)
-        if (cartId > 0L) {
+        if (cartId > 0L && user.getId() == cartItemRequest.getUserId() && cartItemRequest.getQuantity()>0) {
+
             // Lấy đối tượng cartItem từ database theo cartId và productId của cartItemRequest
             Optional<CartItem> cartItemFromServer = Protector.of(() -> cartItemService.getByCartIdAndProductId(
                     cartId, cartItemRequest.getProductId()
@@ -141,6 +146,9 @@ public class CartItemServlet extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CartItemRequest cartItemRequest = JsonUtils.get(request, CartItemRequest.class);
 
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("currentUser");
+
         long cartItemId = Protector.of(() -> Long.parseLong(request.getParameter("cartItemId"))).get(0L);
         Optional<CartItem> cartItemFromServer = Protector.of(() -> cartItemService.getById(cartItemId)).get(Optional::empty);
 
@@ -156,7 +164,7 @@ public class CartItemServlet extends HttpServlet {
                 new ErrorMessage(404, errorMessage),
                 HttpServletResponse.SC_NOT_FOUND);
 
-        if (cartItemId > 0L && cartItemFromServer.isPresent()) {
+        if (cartItemId > 0L && cartItemFromServer.isPresent() && user.getId() == cartItemRequest.getUserId() && cartItemRequest.getQuantity()>0) {
             CartItem cartItem = cartItemFromServer.get();
             cartItem.setQuantity(cartItemRequest.getQuantity());
             cartItem.setUpdatedAt(LocalDateTime.now());
@@ -170,7 +178,11 @@ public class CartItemServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        CartItemRequest cartItemRequest = JsonUtils.get(request, CartItemRequest.class);
         long cartItemId = Protector.of(() -> Long.parseLong(request.getParameter("cartItemId"))).get(0L);
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("currentUser");
 
         String successMessage = "Đã xóa sản phẩm khỏi giỏ hàng thành công!";
         String errorMessage = "Đã có lỗi truy vấn!";
@@ -184,7 +196,7 @@ public class CartItemServlet extends HttpServlet {
                 new ErrorMessage(404, errorMessage),
                 HttpServletResponse.SC_NOT_FOUND);
 
-        if (cartItemId > 0L) {
+        if (cartItemId > 0L ) {
             Protector.of(() -> cartItemService.delete(cartItemId))
                     .done(r -> doneFunction.run())
                     .fail(e -> failFunction.run());
