@@ -48,6 +48,7 @@
                  id="inputPassword"
                  name="password"
                  value="${requestScope.values.password}">
+          <p id="validatePassword"></p>
           <c:if test="${not empty requestScope.violations.passwordViolations}">
             <div class="invalid-feedback">
               <ul class="list-unstyled">

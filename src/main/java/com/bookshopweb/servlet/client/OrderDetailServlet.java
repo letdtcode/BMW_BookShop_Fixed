@@ -51,9 +51,6 @@ public class OrderDetailServlet extends HttpServlet {
             request.setAttribute("tempPrice", tempPrice);
             request.setAttribute("orderItems", orderItems);
 
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             request.getRequestDispatcher("/WEB-INF/views/orderDetailView.jsp").forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + "/");

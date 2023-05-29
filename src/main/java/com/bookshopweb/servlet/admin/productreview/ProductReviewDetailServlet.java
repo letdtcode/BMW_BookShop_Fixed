@@ -35,16 +35,8 @@ public class ProductReviewDetailServlet extends HttpServlet {
             Protector.of(() -> productService.getById(productReview.getProductId())).get(Optional::empty)
                     .ifPresent(productReview::setProduct);
             request.setAttribute("productReview", productReview);
-
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             request.getRequestDispatcher("/WEB-INF/views/productReviewDetailView.jsp").forward(request, response);
         } else {
-
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             response.sendRedirect(request.getContextPath() + "/admin/reviewManager");
         }
     }

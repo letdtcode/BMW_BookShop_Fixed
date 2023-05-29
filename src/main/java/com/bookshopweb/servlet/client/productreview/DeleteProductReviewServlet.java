@@ -16,8 +16,6 @@ public class DeleteProductReviewServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        response.addHeader("X-Frame-Options", "DENY");
     }
 
     @Override

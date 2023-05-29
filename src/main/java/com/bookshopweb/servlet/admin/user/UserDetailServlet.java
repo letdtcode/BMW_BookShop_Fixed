@@ -23,16 +23,8 @@ public class UserDetailServlet extends HttpServlet {
 
         if (userFromServer.isPresent()) {
             request.setAttribute("user", userFromServer.get());
-
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             request.getRequestDispatcher("/WEB-INF/views/userDetailView.jsp").forward(request, response);
         } else {
-
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             response.sendRedirect(request.getContextPath() + "/admin/userManager");
         }
     }

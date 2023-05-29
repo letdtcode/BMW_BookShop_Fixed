@@ -47,13 +47,7 @@ public class UpdateProductServlet extends HttpServlet {
             categoryFromServer.ifPresent(category -> request.setAttribute("categoryId", category.getId()));
             request.getRequestDispatcher("/WEB-INF/views/updateProductView.jsp").forward(request, response);
 
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
         } else {
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             response.sendRedirect(request.getContextPath() + "/admin/productManager");
         }
     }
@@ -178,9 +172,6 @@ public class UpdateProductServlet extends HttpServlet {
         request.setAttribute("product", product);
         request.setAttribute("categories", categories);
         request.setAttribute("categoryId", categoryId);
-
-        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        response.addHeader("X-Frame-Options", "DENY");
 
         request.getRequestDispatcher("/WEB-INF/views/updateProductView.jsp").forward(request, response);
     }

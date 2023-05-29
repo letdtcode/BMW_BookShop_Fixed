@@ -33,16 +33,8 @@ public class ProductDetailServlet extends HttpServlet {
 
             request.setAttribute("product", product);
             request.setAttribute("category", categoryFromServer.orElseGet(Category::new));
-
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             request.getRequestDispatcher("/WEB-INF/views/productDetailView.jsp").forward(request, response);
         } else {
-
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             response.sendRedirect(request.getContextPath() + "/admin/productManager");
         }
     }

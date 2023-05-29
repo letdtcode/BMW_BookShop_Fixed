@@ -35,15 +35,8 @@ public class UpdateCategoryServlet extends HttpServlet {
         if (categoryFromServer.isPresent()) {
             request.setAttribute("category", categoryFromServer.get());
 
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             request.getRequestDispatcher("/WEB-INF/views/updateCategoryView.jsp").forward(request, response);
         } else {
-
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             response.sendRedirect(request.getContextPath() + "/admin/categoryManager");
         }
     }
@@ -101,14 +94,8 @@ public class UpdateCategoryServlet extends HttpServlet {
             request.setAttribute("category", category);
             request.setAttribute("violations", violations);
 
-            response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-            response.addHeader("X-Frame-Options", "DENY");
-
             request.setAttribute("deleteImage", deleteImage);
         }
-
-        response.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        response.addHeader("X-Frame-Options", "DENY");
 
         request.getRequestDispatcher("/WEB-INF/views/updateCategoryView.jsp").forward(request, response);
     }
