@@ -11,20 +11,19 @@ public class SecurityFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
         // Khởi tạo các tài nguyên cần thiết (nếu có)
     }
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         httpResponse.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
         // Thiết lập Content-Security-Policy header
-//        httpResponse.setHeader("Content-Security-Policy", "default-src 'self' unsafe-eval' 'unsafe-inline'; script-src 'self'; style-src 'self';");
-        httpResponse.setHeader("Content-Security-Policy", "default-src 'self' unsafe-eval' 'unsafe-inline'; script-src 'self';" +
-                "frame-ancestors 'none'; plugin-types application/pdf application/x-shockwave-flas");
+        httpResponse.setHeader("Content-Security-Policy", "default-src 'self' " +
+                "'unsafe-eval' 'unsafe-inline'; script-src 'self' 'unsafe-inline';" +
+                "frame-ancestors 'none';" +
+                "style-src 'self' 'unsafe-inline' http://www.w3.org https://github.com/twbs/bootstrap;");
         // Thiết lập X-Content-Type-Options header
         httpResponse.setHeader("X-Content-Type-Options", "nosniff");
-//        httpResponse.addHeader("Content-Security-Policy", "frame-ancestors 'none'");
-        httpResponse.addHeader("X-Frame-Options", "DENY");
+        httpResponse.addHeader("X-Frame-Options", "SAMEORIGIN");
         chain.doFilter(request, response);
     }
 

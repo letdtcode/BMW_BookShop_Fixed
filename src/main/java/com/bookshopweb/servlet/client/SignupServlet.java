@@ -17,10 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "SignupServlet", value = "/signup")
 public class SignupServlet extends HttpServlet {
     private final UserService userService = new UserService();
+    private static final String PASSWORD_PATTERN = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$";
+    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,13 +35,13 @@ public class SignupServlet extends HttpServlet {
         // Lưu các parameter (tên-giá trị) vào map values
         Map<String, String> values = new HashMap<>();
         values.put("username", StringEscapeUtils.escapeHtml4(request.getParameter("username")));
-        values.put("password", StringEscapeUtils.escapeHtml4(request.getParameter("password")));
+        values.put("password", request.getParameter("password"));
         values.put("fullname", StringEscapeUtils.escapeHtml4(request.getParameter("fullname")));
         values.put("email", StringEscapeUtils.escapeHtml4(request.getParameter("email")));
         values.put("phoneNumber", StringEscapeUtils.escapeHtml4(request.getParameter("phoneNumber")));
-        values.put("gender", StringEscapeUtils.escapeHtml4(request.getParameter("gender")));
+        values.put("gender", request.getParameter("gender"));
         values.put("address", StringEscapeUtils.escapeHtml4(request.getParameter("address")));
-        values.put("policy", StringEscapeUtils.escapeHtml4(request.getParameter("policy")));
+        values.put("policy", request.getParameter("policy"));
 
         // Kiểm tra các parameter, lưu các vi phạm (nếu có) vào map violations
         Map<String, List<String>> violations = new HashMap<>();
