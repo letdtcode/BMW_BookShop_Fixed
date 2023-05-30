@@ -109,10 +109,10 @@
 
 <jsp:include page="_footer.jsp"/>
 </body>
-<script>
-  if(top.location!=self.location) {
-    parent.location = self.location;
-  }
-</script>
+<%--<script>--%>
+<%--  if(top.location!=self.location) {--%>
+<%--    parent.location = self.location;--%>
+<%--  }--%>
+<%--</script>--%>
 
 </html>

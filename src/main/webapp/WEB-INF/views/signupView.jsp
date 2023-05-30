@@ -190,14 +190,13 @@
   </div> <!-- card.// -->
   <p class="text-center mt-4">Đã có tài khoản? <a href="${pageContext.request.contextPath}/signin">Đăng nhập</a></p>
 </section> <!-- section-content.// -->
-
 <jsp:include page="_footer.jsp"/>
+<script src="<%=request.getContextPath()%>/assets/jquery/jquery-3.5.1.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/assets/validate.js" type="text/javascript"></script>
 <script>
-  $('#form-register').submit(function (e){
-    validateFormRegister(e)
+  $('#form-register').submit(function (event){
+    validateFormRegister(event)
   })
 </script>
-<script src="<%=request.getContextPath()%>/assets/validate.js"></script>
 </body>
-
 </html>

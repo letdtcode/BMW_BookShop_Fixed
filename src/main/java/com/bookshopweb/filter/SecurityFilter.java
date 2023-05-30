@@ -18,7 +18,7 @@ public class SecurityFilter implements Filter {
         httpResponse.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
         // Thiết lập Content-Security-Policy header
         httpResponse.setHeader("Content-Security-Policy", "default-src 'self' " +
-                "'unsafe-eval' 'unsafe-inline'; script-src 'self';" +
+                "'unsafe-eval' 'unsafe-inline'; script-src 'self' 'unsafe-inline';" +
                 "frame-ancestors 'none';" +
                 "style-src 'self' 'unsafe-inline' http://www.w3.org https://github.com/twbs/bootstrap;");
         // Thiết lập X-Content-Type-Options header

@@ -14,10 +14,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "ChangePassword", value = "/changePassword")
 public class ChangePasswordServlet extends HomeServlet {
     private final UserService userService = new UserService();
+    private static final String PASSWORD_PATTERN = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$";
+    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -48,10 +52,13 @@ public class ChangePasswordServlet extends HomeServlet {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("currentUser");
 
+            Matcher matcher = pattern.matcher(values.get("newPassword"));
+
+            boolean newPasswordValidateFormat = matcher.matches();
             boolean currentPasswordEqualsUserPassword = HashingUtils.verifiedPassword(values.get("currentPassword"), user.getPassword());
             boolean newPasswordEqualsNewPasswordAgain = values.get("newPassword").equals(values.get("newPasswordAgain"));
 
-            if (currentPasswordEqualsUserPassword && newPasswordEqualsNewPasswordAgain) {
+            if (currentPasswordEqualsUserPassword && newPasswordEqualsNewPasswordAgain && newPasswordValidateFormat) {
                 String newPassword = HashingUtils.hash(values.get("newPassword"));
                 userService.changePassword(user.getId(), newPassword);
                 String successMessage = "Đổi mật khẩu thành công!";
